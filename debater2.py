@@ -14,23 +14,20 @@ client = discord.Client(intents=discord.Intents.default())
 async def updateLoop():
     await client.wait_until_ready()
     channel = client.get_channel(channelID)
-
+    prevMessage = ""
     while not client.is_closed():
         try:
             with open('arguements.json', 'r') as args_file:
                 args = json.load(args_file)
-
-            if args[0]["bot2"].strip():  # Check if bot2 has something to say
-                await channel.send(args[0]["bot2"])
-                initial_data = [
-                    {
-                        "bot1": "",
-                        "bot2": ""
-                    }
-                ]
-                await asyncio.sleep(1)
-                with open("arguements.json", "w") as file:
-                    json.dump(initial_data, file, indent=4)
+                if args[0]["bot2"].strip():
+                    if prevMessage == args[0]["bot2"]:
+                        pass
+                    else:
+                        await channel.send(args[0]["bot2"])
+                    prevMessage = args[0]["bot2"]
+                    args[0]["bot2"] = ""
+                    with open("arguements.json", "w") as file:
+                        json.dump(args, file, indent=4)
 
         except Exception as e:
             print(f"Error in updateLoop: {e}")

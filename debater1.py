@@ -49,23 +49,20 @@ async def last5(channelID):
 async def updateLoop():
     await client.wait_until_ready()
     channel = client.get_channel(channelID)
-
+    prevMessage = ""
     while not client.is_closed():
         try:
             with open('arguements.json', 'r') as args_file:
                 args = json.load(args_file)
-            # Only send if there's a message
-            if args[0]["bot1"].strip():
-                await channel.send(args[0]["bot1"])
-                initial_data = [
-                    {
-                        "bot1": "",
-                        "bot2": ""
-                    }
-                ]
-                await asyncio.sleep(1)
-                with open("arguements.json", "w") as file:
-                    json.dump(initial_data, file, indent=4)
+                if args[0]["bot1"].strip():
+                    if prevMessage == args[0]["bot1"]:
+                        pass
+                    else:
+                        await channel.send(args[0]["bot1"])
+                    prevMessage = args[0]["bot1"]
+                    args[0]["bot1"] = ""
+                    with open("arguements.json", "w") as file:
+                        json.dump(args, file, indent=4)
 
                 # Update context
                 recent = await last5(channelID)
