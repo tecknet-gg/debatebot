@@ -38,6 +38,8 @@ def generatePersonas(debateTopic,special,name):
             print("No quoted text found.")
         if name2:
             name = True
+        else:
+            name = None
     return personas
 
 
