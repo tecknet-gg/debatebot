@@ -10,6 +10,28 @@ bot2name = debateData["persona2name"]
 channelID = 1367513947413942272  # Ensure "channelID" exists in your debateData.json
 
 client = discord.Client(intents=discord.Intents.default())
+async def last5(channelID):
+    messages = []
+    with open("messagesSent.json", "r") as file:
+        messagesSent = json.load(file)["messagesSent"]
+    channel = client.get_channel(channelID)
+    async for msg in channel.history(limit=100):
+        if len(messages) == 5 or messagesSent == 0:
+            break
+
+        if len(messages) == messagesSent:
+            break
+
+        if msg.author.id in {client.user.id, bot2ID}:
+            messages.append({"author": str(msg.author), "content": msg.content})
+
+    for message in messages:
+        if message["author"] == "Chuck#2793":
+            message["author"] = bot2name
+        else:
+            message["author"] = bot1name
+
+    return list(reversed(messages))
 
 async def updateLoop():
     await client.wait_until_ready()
@@ -29,11 +51,13 @@ async def updateLoop():
                     with open("arguements.json", "w") as file:
                         json.dump(args, file, indent=4)
 
+                recent = await last5(channelID)
+                with open('context.json', 'w') as context_file:
+                     json.dump(recent, context_file, indent=4)
+
         except Exception as e:
             print(f"Error in updateLoop: {e}")
-
         await asyncio.sleep(1)
-
 
 @client.event
 async def on_ready():

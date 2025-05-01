@@ -24,8 +24,6 @@ async def last5(channelID):
     messages = []
     with open("messagesSent.json", "r") as file:
         messagesSent = json.load(file)["messagesSent"]
-
-    # Get the channel and iterate through message history
     channel = client.get_channel(channelID)
     async for msg in channel.history(limit=100):
         if len(messages) == 5 or messagesSent == 0:
@@ -37,7 +35,6 @@ async def last5(channelID):
         if msg.author.id in {client.user.id, bot2ID}:
             messages.append({"author": str(msg.author), "content": msg.content})
 
-    # Replacing author names after gathering the messages
     for message in messages:
         if message["author"] == "Chuck#2793":
             message["author"] = bot2name

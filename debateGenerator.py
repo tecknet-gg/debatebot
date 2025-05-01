@@ -47,6 +47,7 @@ def generateDebate(topic):
     model = GPT4All("Meta-Llama-3-8B-Instruct.Q4_0.gguf")
     if topic == None:
         topic = randomWord("n")
+    print(f"Generating debate topic for {topic}:")
     debatePrompt = f"""
     You are tasked with generating a fun, quirky, and unconventional debate topic for a lively and humorous discussion. The topic should be something that invites creative arguments, and the tone should be lighthearted and playful, but still worthy of a spirited back-and-forth.
     The question should be a simple for/against statement.
@@ -67,7 +68,7 @@ def generateDebate(topic):
         return quotedText
     else:
         print("No quoted text found.")
-        generateDebate()
+
 
 def getPersonaPrompt(debateTopic, stance, name, special):
     if special == None:
