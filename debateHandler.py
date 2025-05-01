@@ -62,6 +62,8 @@ def debate(newDebate):
     debateLength = random.randint(10, 14)
     closingDone = False
     while True:
+        updateCounter(i)
+        time.sleep(1)
         with open('context.json', 'r') as context_file:
             context = formatContext(json.load(context_file))
 
