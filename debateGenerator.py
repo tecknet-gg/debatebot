@@ -123,6 +123,10 @@ def randomWord(type):
 def generateFile(specialTopic, specialPersonas,name):
     debateTopic = generateDebate(specialTopic)
     personas = generatePersonas(debateTopic,specialPersonas,name)
+    print("Debate generated. Saving to debateData.json")
+    print(f"Debate topic: {debateTopic}")
+    print(f"{personas[0][1]}: {personas[0][0]}")
+    print(f"{personas[1][1]}: {personas[1][0]}")
     debateData = {
         "topic": debateTopic,
         "persona1": personas[0][0],

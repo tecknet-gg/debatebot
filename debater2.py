@@ -6,8 +6,10 @@ with open('debateData.json') as json_file:
     debateData = json.load(json_file)
 
 bot2token = "MTM2NzQ3ODk3NjU3ODA2MDI4OA.GJz-JH.yOobgHnTWowqLYYzFghSR_eCZIEtWcrhTqBgoI"
+bot1name = debateData["persona1name"]
 bot2name = debateData["persona2name"]
 channelID = 1367513947413942272  # Ensure "channelID" exists in your debateData.json
+bot2ID = 1367478976578060288
 
 client = discord.Client(intents=discord.Intents.default())
 async def last5(channelID):
